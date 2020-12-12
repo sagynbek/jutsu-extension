@@ -1,11 +1,10 @@
-# Udemy Plus
-Browser extension for Udemy.com
+# Jut.su Extension 
+Browser extension for [Jut.su](https://jut.su/)
 
 ## Features:
-* Picture in Picture 🔥🔥🔥
-* Better video play 😎
-* Mark course sections completed 😏
+* Automatically skip introduction 🔥🔥🔥
+* Open next episode 😎
 
 ## Links to install:
-* [Google Chrome Extension](https://chrome.google.com/webstore/detail/udemy-plus/llkblgkohonjafpigfbbamilgadmcilg)
-* [Microsoft Edge Addon](https://microsoftedge.microsoft.com/addons/detail/udemy-plus/jifmpaehnfnajolpjcmlflonjkingika)
+* [Google Chrome Extension](soon)
+* [Microsoft Edge Addon](soon)
