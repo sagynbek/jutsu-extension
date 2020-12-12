@@ -1,5 +1,5 @@
 {
-  "name": "jutsu-plus",
+  "name": "jut.su-extension",
   "version": "0.0.1",
   "scripts": {
     "code": "eslint --fix \"src/**/*.ts\" \"tasks/**/*.js\" ",
