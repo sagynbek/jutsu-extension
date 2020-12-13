@@ -11,8 +11,12 @@ export class NextEpisode<T extends HTMLDivElement> extends BaseModel<T> {
   }
 
   private async init() {
-    this.permitted = await this.getPreference(OPEN_NEXT_VIDEO, true);
+    await this.subscribeToPreference(OPEN_NEXT_VIDEO, true, this.setPermition);
     this.onDomAttributeChange(this.validate, this.action);
+  }
+
+  private setPermition = (permission) => {
+    this.permitted = permission;
   }
 
   private validate = (element: T) => {

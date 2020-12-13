@@ -11,8 +11,12 @@ export class SkipIntro<T extends HTMLDivElement> extends BaseModel<T> {
   }
 
   private async init() {
-    this.permitted = await this.getPreference(SKIP_VIDEO_INTRO, true);
+    await this.subscribeToPreference(SKIP_VIDEO_INTRO, true, this.setPermition);
     this.onDomAttributeChange(this.validate, this.action);
+  }
+
+  private setPermition = (permission) => {
+    this.permitted = permission;
   }
 
   validate = (element: T) => {
@@ -26,7 +30,6 @@ export class SkipIntro<T extends HTMLDivElement> extends BaseModel<T> {
   }
 
   action = (element: T) => {
-    this.permitted = false;
     element.click();
   }
 }

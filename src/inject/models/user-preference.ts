@@ -1,4 +1,36 @@
+
+type IObservable<T> = {
+  preference: string,
+  onChange: (changedValue: T) => void,
+}
+
 export class UserPreference {
+  private observables: IObservable<any>[] = [];
+
+  constructor() {
+    this.init();
+  }
+
+  private init() {
+    chrome.storage.onChanged.addListener(this.onStorageChange);
+  }
+
+  private onStorageChange = (changes: { [key: string]: chrome.storage.StorageChange; }) => {
+    for (let key in changes) {
+      const storageChange = changes[key];
+
+      this.observables.forEach(({ preference, onChange }) => {
+        if (preference === key) {
+          onChange(storageChange.newValue);
+        }
+      })
+    }
+  }
+
+  subscribe<P>(preference: string, onChange: (changedValue: P) => void) {
+    this.observables.push({ preference, onChange });
+  }
+
   async get<P>(preference: string, defaultValue: P) {
     return new Promise((resolve: (value: P) => void, reject) => {
       chrome.storage.sync.get([preference], (result) => {
