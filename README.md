@@ -2,6 +2,7 @@
 Browser extension for [Jut.su](https://jut.su/)
 
 ## Features:
+- Automatically plays video 💪
 * Automatically skip introduction 🔥🔥🔥
 * Open next episode 😎
 
