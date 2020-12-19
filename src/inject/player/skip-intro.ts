@@ -11,7 +11,7 @@ export class SkipIntro<T extends HTMLDivElement> extends BaseModel<T> {
   }
 
   private async init() {
-    await this.subscribeToPreference(SKIP_VIDEO_INTRO, true, this.setPermition);
+    await this.subscribeToPreference(SKIP_VIDEO_INTRO.key, SKIP_VIDEO_INTRO.default, this.setPermition);
     this.onDomAttributeChange(this.validate, this.action);
   }
 

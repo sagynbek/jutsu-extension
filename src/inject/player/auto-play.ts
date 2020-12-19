@@ -11,7 +11,7 @@ export class AutoPlay<T extends HTMLDivElement> extends BaseModel<T> {
   }
 
   private async init() {
-    await this.subscribeToPreference(AUTO_PLAY_VIDEO, true, this.setPermition);
+    await this.subscribeToPreference(AUTO_PLAY_VIDEO.key, AUTO_PLAY_VIDEO.default, this.setPermition);
     this.onDomAdd(this.validate, this.action);
   }
 
