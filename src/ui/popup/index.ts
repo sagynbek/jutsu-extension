@@ -1,8 +1,20 @@
-import { AUTO_PLAY_VIDEO, OPEN_NEXT_VIDEO, SKIP_VIDEO_INTRO, VIDEO_SPEED } from "inject/constants";
+import { AUTO_PLAY_VIDEO, IConstant, OPEN_NEXT_VIDEO, SKIP_VIDEO_INTRO, VIDEO_SPEED } from "inject/constants";
 import { UserPreference } from "inject/models/user-preference";
 
 
+interface IConfig {
+  id: string,
+  preference: IConstant,
+  type: "checkbox" | "slider"
+}
+
 const userPreference = new UserPreference();
+const configs: IConfig[] = [
+  { id: "skip-recap", preference: SKIP_VIDEO_INTRO, type: "checkbox" },
+  { id: "next-episode", preference: OPEN_NEXT_VIDEO, type: "checkbox" },
+  { id: "auto-play", preference: AUTO_PLAY_VIDEO, type: "checkbox" },
+  { id: "video-speed", preference: VIDEO_SPEED, type: "slider" }
+]
 
 function localizeHtmlPage() {
   // Localize by replacing __MSG_***__ meta tags
@@ -31,45 +43,63 @@ function onSliderChange(e, key: string, indicator: HTMLElement) {
   setSliderIndicatorValue(indicator, e.target.value);
 }
 
-function setSliderIndicatorValue(indicator: HTMLElement, value) {
+function setSliderIndicatorValue(indicator: HTMLElement, value: number | boolean) {
   indicator.innerText = "x" + value;
 }
 
-function setCheckboxValue(checkbox: HTMLElement, value) {
-  if (value) { checkbox.setAttribute("checked", "true"); }
-  else { checkbox.removeAttribute("checked"); }
+function setCheckboxValue(checkbox: HTMLElement, value: number | boolean) {
+  (checkbox as HTMLInputElement).checked = !!value;
 }
 
-function setSliderValue(slider: HTMLElement, value) {
-  slider.setAttribute("value", value);
+function setSliderValue(slider: HTMLElement, value: number | boolean) {
+  (slider as HTMLInputElement).value = value.toString();
+}
+
+async function initialize() {
+  for (let it = 0; it < configs.length; it++) {
+    const { id, preference, type } = configs[it];
+
+    const element = document.getElementById(id);
+    const preferedValue = await userPreference.get(preference.key, preference.default);
+
+    if (type === "checkbox") {
+      setCheckboxValue(element, preferedValue);
+      element.addEventListener("change", (e) => { onCheckboxChange(e, preference.key) });
+    }
+    else if (type === "slider") {
+      const indicatorElement = document.getElementById(id + "-indicator");
+      setSliderValue(element, preferedValue);
+      setSliderIndicatorValue(indicatorElement, preferedValue);
+
+      element.addEventListener("input", (e) => { onSliderChange(e, preference.key, indicatorElement) });
+    }
+  }
+}
+
+function setupResetButton() {
+  const resetConfigButton = document.getElementById("reset-config");
+
+  resetConfigButton.onclick = () => {
+    for (let it = 0; it < configs.length; it++) {
+      const { id, preference, type } = configs[it];
+      const element = document.getElementById(id);
+
+      userPreference.set(preference.key, preference.default);
+      if (type === "checkbox") {
+        setCheckboxValue(element, preference.default);
+      }
+      else if (type === "slider") {
+        const indicatorElement = document.getElementById(id + "-indicator");
+        setSliderValue(element, preference.default);
+        setSliderIndicatorValue(indicatorElement, preference.default);
+      }
+    }
+  }
 }
 
 (async () => {
   localizeHtmlPage();
 
-  const skipRecapElement = document.getElementById("skip-recap");
-  const nextEpisodeElement = document.getElementById("next-episode");
-  const autoPlayElement = document.getElementById("auto-play");
-  const videoSpeedElement = document.getElementById("video-speed");
-  const videoSpeedIndicatorElement = document.getElementById("video-speed-indicator")
-
-
-
-  const shouldSkip = await userPreference.get(SKIP_VIDEO_INTRO.key, SKIP_VIDEO_INTRO.default);
-  const shouldOpenNextEpisode = await userPreference.get(OPEN_NEXT_VIDEO.key, OPEN_NEXT_VIDEO.default);
-  const shouldAutoPlay = await userPreference.get(AUTO_PLAY_VIDEO.key, AUTO_PLAY_VIDEO.default);
-  const videoSpeed = await userPreference.get(VIDEO_SPEED.key, VIDEO_SPEED.default);
-
-
-  setCheckboxValue(skipRecapElement, shouldSkip);
-  setCheckboxValue(nextEpisodeElement, shouldOpenNextEpisode);
-  setCheckboxValue(autoPlayElement, shouldAutoPlay);
-  setSliderValue(videoSpeedElement, videoSpeed);
-  setSliderIndicatorValue(videoSpeedIndicatorElement, videoSpeed);
-
-
-  skipRecapElement.addEventListener("change", (e) => { onCheckboxChange(e, SKIP_VIDEO_INTRO.key) });
-  nextEpisodeElement.addEventListener("change", (e) => { onCheckboxChange(e, OPEN_NEXT_VIDEO.key) });
-  autoPlayElement.addEventListener("change", (e) => { onCheckboxChange(e, AUTO_PLAY_VIDEO.key) });
-  videoSpeedElement.addEventListener("change", (e) => { onSliderChange(e, VIDEO_SPEED.key, videoSpeedIndicatorElement) });
+  initialize();
+  setupResetButton();
 })();
