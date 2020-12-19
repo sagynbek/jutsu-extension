@@ -1,4 +1,4 @@
-import { OPEN_NEXT_VIDEO, SKIP_VIDEO_INTRO } from "inject/constants";
+import { AUTO_PLAY_VIDEO, OPEN_NEXT_VIDEO, SKIP_VIDEO_INTRO } from "inject/constants";
 import { UserPreference } from "inject/models/user-preference";
 
 
@@ -36,15 +36,20 @@ function setCheckboxValue(checkbox: HTMLElement, value) {
 
   const skipRecapElement = document.getElementById("skip-recap");
   const nextEpisodeElement = document.getElementById("next-episode");
+  const autoPlayElement = document.getElementById("auto-play");
+
 
 
   const shouldSkip = await userPreference.get(SKIP_VIDEO_INTRO, true);
   const shouldOpenNextEpisode = await userPreference.get(OPEN_NEXT_VIDEO, true);
+  const shouldAutoPlay = await userPreference.get(AUTO_PLAY_VIDEO, true);
 
   setCheckboxValue(skipRecapElement, shouldSkip);
   setCheckboxValue(nextEpisodeElement, shouldOpenNextEpisode);
+  setCheckboxValue(autoPlayElement, shouldAutoPlay);
 
 
   skipRecapElement.addEventListener("change", (e) => { onCheckboxChange(e, SKIP_VIDEO_INTRO) });
   nextEpisodeElement.addEventListener("change", (e) => { onCheckboxChange(e, OPEN_NEXT_VIDEO) });
+  autoPlayElement.addEventListener("change", (e) => { onCheckboxChange(e, AUTO_PLAY_VIDEO) });
 })();

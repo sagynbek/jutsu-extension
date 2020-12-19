@@ -1,2 +1,3 @@
 export const SKIP_VIDEO_INTRO = "SKIP_VIDEO_INTRO";
 export const OPEN_NEXT_VIDEO = "OPEN_NEXT_VIDEO";
+export const AUTO_PLAY_VIDEO = "AUTO_PLAY_VIDEO";

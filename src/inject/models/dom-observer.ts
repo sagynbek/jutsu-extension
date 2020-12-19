@@ -1,4 +1,5 @@
 import { ObserverWrapper } from "inject/utils/observer";
+import { logWarn } from '../utils/log';
 
 
 type ISubsribableActions = | "add" | "remove" | "attributes";
@@ -64,7 +65,11 @@ export class DomObserver {
 
   private checkAndCallCallback(action: ISubsribableActions, target: Node) {
     this.observables[action].forEach(({ validate, callback }) => {
-      validate(target) && callback(target);
+      try {
+        validate(target) && callback(target);
+      } catch (err) {
+        logWarn(err)
+      }
     });
   }
 }
