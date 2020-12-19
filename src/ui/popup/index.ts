@@ -1,4 +1,4 @@
-import { AUTO_PLAY_VIDEO, OPEN_NEXT_VIDEO, SKIP_VIDEO_INTRO } from "inject/constants";
+import { AUTO_PLAY_VIDEO, OPEN_NEXT_VIDEO, SKIP_VIDEO_INTRO, VIDEO_SPEED } from "inject/constants";
 import { UserPreference } from "inject/models/user-preference";
 
 
@@ -26,9 +26,22 @@ function onCheckboxChange(e, key: string) {
   userPreference.set(key, isChecked);
 }
 
+function onSliderChange(e, key: string, indicator: HTMLElement) {
+  userPreference.set(key, e.target.value);
+  setSliderIndicatorValue(indicator, e.target.value);
+}
+
+function setSliderIndicatorValue(indicator: HTMLElement, value) {
+  indicator.innerText = "x" + value;
+}
+
 function setCheckboxValue(checkbox: HTMLElement, value) {
   if (value) { checkbox.setAttribute("checked", "true"); }
   else { checkbox.removeAttribute("checked"); }
+}
+
+function setSliderValue(slider: HTMLElement, value) {
+  slider.setAttribute("value", value);
 }
 
 (async () => {
@@ -37,19 +50,26 @@ function setCheckboxValue(checkbox: HTMLElement, value) {
   const skipRecapElement = document.getElementById("skip-recap");
   const nextEpisodeElement = document.getElementById("next-episode");
   const autoPlayElement = document.getElementById("auto-play");
+  const videoSpeedElement = document.getElementById("video-speed");
+  const videoSpeedIndicatorElement = document.getElementById("video-speed-indicator")
 
 
 
-  const shouldSkip = await userPreference.get(SKIP_VIDEO_INTRO, true);
-  const shouldOpenNextEpisode = await userPreference.get(OPEN_NEXT_VIDEO, true);
-  const shouldAutoPlay = await userPreference.get(AUTO_PLAY_VIDEO, true);
+  const shouldSkip = await userPreference.get(SKIP_VIDEO_INTRO.key, SKIP_VIDEO_INTRO.default);
+  const shouldOpenNextEpisode = await userPreference.get(OPEN_NEXT_VIDEO.key, OPEN_NEXT_VIDEO.default);
+  const shouldAutoPlay = await userPreference.get(AUTO_PLAY_VIDEO.key, AUTO_PLAY_VIDEO.default);
+  const videoSpeed = await userPreference.get(VIDEO_SPEED.key, VIDEO_SPEED.default);
+
 
   setCheckboxValue(skipRecapElement, shouldSkip);
   setCheckboxValue(nextEpisodeElement, shouldOpenNextEpisode);
   setCheckboxValue(autoPlayElement, shouldAutoPlay);
+  setSliderValue(videoSpeedElement, videoSpeed);
+  setSliderIndicatorValue(videoSpeedIndicatorElement, videoSpeed);
 
 
-  skipRecapElement.addEventListener("change", (e) => { onCheckboxChange(e, SKIP_VIDEO_INTRO) });
-  nextEpisodeElement.addEventListener("change", (e) => { onCheckboxChange(e, OPEN_NEXT_VIDEO) });
-  autoPlayElement.addEventListener("change", (e) => { onCheckboxChange(e, AUTO_PLAY_VIDEO) });
+  skipRecapElement.addEventListener("change", (e) => { onCheckboxChange(e, SKIP_VIDEO_INTRO.key) });
+  nextEpisodeElement.addEventListener("change", (e) => { onCheckboxChange(e, OPEN_NEXT_VIDEO.key) });
+  autoPlayElement.addEventListener("change", (e) => { onCheckboxChange(e, AUTO_PLAY_VIDEO.key) });
+  videoSpeedElement.addEventListener("change", (e) => { onSliderChange(e, VIDEO_SPEED.key, videoSpeedIndicatorElement) });
 })();

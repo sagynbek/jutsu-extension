@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "code": "eslint --fix \"src/**/*.ts\" \"tasks/**/*.js\" ",
+    "start": "node tasks/build.js --debug --watch",
     "debug": "node tasks/build.js --debug",
     "release": "node tasks/build.js --release"
   },
