@@ -1,5 +1,5 @@
 import { BaseModel } from "inject/models/base-model";
-import { FULL_SCREEN, PLAYER_ACTION_TIMEOUT_IN_MS } from "inject/constants";
+import { FULL_SCREEN, FULL_SCREEN_TIMEOUT_IN_MS } from "inject/constants";
 
 
 export class FullScreen<T extends HTMLDivElement> extends BaseModel<T> {
@@ -31,7 +31,7 @@ export class FullScreen<T extends HTMLDivElement> extends BaseModel<T> {
   private action = (element: T) => {
     setTimeout(() => {
       this.getFullScreenButton(element).click();
-    }, PLAYER_ACTION_TIMEOUT_IN_MS);
+    }, FULL_SCREEN_TIMEOUT_IN_MS);
   }
 
   private getFullScreenButton = (element: T): HTMLButtonElement => {

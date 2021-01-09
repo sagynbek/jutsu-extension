@@ -9,4 +9,5 @@ export const AUTO_PLAY_VIDEO = { key: "AUTO_PLAY_VIDEO", default: true };
 export const VIDEO_SPEED = { key: "VIDEO_SPEED", default: 1 };
 export const FULL_SCREEN = { key: "FULL_SCREEN", default: true };
 
-export const PLAYER_ACTION_TIMEOUT_IN_MS = 700;
+export const AUTO_PLAY_VIDEO_TIMEOUT_IN_MS = 350;
+export const FULL_SCREEN_TIMEOUT_IN_MS = 550;
