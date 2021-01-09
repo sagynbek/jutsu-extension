@@ -1,5 +1,5 @@
 import { BaseModel } from "inject/models/base-model";
-import { AUTO_PLAY_VIDEO } from "inject/constants";
+import { AUTO_PLAY_VIDEO, PLAYER_ACTION_TIMEOUT_IN_MS } from "inject/constants";
 
 
 export class AutoPlay<T extends HTMLDivElement> extends BaseModel<T> {
@@ -28,6 +28,8 @@ export class AutoPlay<T extends HTMLDivElement> extends BaseModel<T> {
   }
 
   private action = (element: T) => {
-    element.click();
+    setTimeout(() => {
+      element.click();
+    }, PLAYER_ACTION_TIMEOUT_IN_MS);
   }
 }
