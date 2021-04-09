@@ -1,5 +1,5 @@
 import { BaseModel } from "inject/models/base-model";
-import { FULL_SCREEN, FULL_SCREEN_TIMEOUT_IN_MS } from "inject/constants";
+import { FULL_SCREEN } from "inject/constants";
 
 
 export class FullScreen<T extends HTMLDivElement> extends BaseModel<T> {
@@ -12,29 +12,25 @@ export class FullScreen<T extends HTMLDivElement> extends BaseModel<T> {
 
   private async init() {
     await this.subscribeToPreference(FULL_SCREEN.key, FULL_SCREEN.default, this.setPermition);
-    this.onDomAdd(this.validate, this.action);
+    this.onKeyDown(['ф', 'Ф', 'f', 'F'], this.action);
   }
 
   private setPermition = (permission) => {
     this.permitted = permission;
   }
 
-  private validate = (element: T) => {
-    return (
-      this.permitted
-      && element.nodeName === "DIV"
-      && element.id == "my-player"
-      && !!this.getFullScreenButton(element)
-    );
+  private action = () => {
+    if (!this.permitted) { return; }
+
+    this.getFullScreenButton()?.click();
   }
 
-  private action = (element: T) => {
-    setTimeout(() => {
-      this.getFullScreenButton(element).click();
-    }, FULL_SCREEN_TIMEOUT_IN_MS);
-  }
+  private getFullScreenButton = (): HTMLButtonElement | null => {
+    let buttons = document.getElementsByClassName("vjs-fullscreen-control");
 
-  private getFullScreenButton = (element: T): HTMLButtonElement => {
-    return (element.getElementsByClassName("vjs-fullscreen-control")[0]) as HTMLButtonElement;
+    if (buttons.length > 0) {
+      return buttons[0] as HTMLButtonElement;
+    }
+    return null;
   }
 }

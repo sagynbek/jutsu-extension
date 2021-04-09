@@ -10,5 +10,5 @@ export const initPlayer = () => {
   new NextEpisode();
   new AutoPlay();
   new VideoSpeed();
-  // new FullScreen(); // Failed to execute 'requestFullscreen' on 'Element': API can only be initiated by a user gesture
+  new FullScreen();
 };

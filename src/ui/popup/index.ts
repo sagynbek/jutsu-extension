@@ -1,4 +1,4 @@
-import { AUTO_PLAY_VIDEO, IConstant, OPEN_NEXT_VIDEO, SKIP_VIDEO_INTRO, VIDEO_SPEED } from "inject/constants";
+import { AUTO_PLAY_VIDEO, FULL_SCREEN, IConstant, OPEN_NEXT_VIDEO, SKIP_VIDEO_INTRO, VIDEO_SPEED } from "inject/constants";
 import { UserPreference } from "inject/models/user-preference";
 
 
@@ -13,6 +13,7 @@ const configs: IConfig[] = [
   { id: "skip-recap", preference: SKIP_VIDEO_INTRO, type: "checkbox" },
   { id: "next-episode", preference: OPEN_NEXT_VIDEO, type: "checkbox" },
   { id: "auto-play", preference: AUTO_PLAY_VIDEO, type: "checkbox" },
+  { id: "enable-fullscreen", preference: FULL_SCREEN, type: "checkbox" },
   { id: "video-speed", preference: VIDEO_SPEED, type: "slider" }
 ]
 

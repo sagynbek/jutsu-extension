@@ -31,4 +31,12 @@ export abstract class BaseModel<T extends Node>{
   protected onDomRemove(validate: (node: T) => boolean, callback: (node: T) => void) {
     this.domObserver.subscribe(validate, callback, "remove");
   }
+  protected onKeyDown(keys: string[], callback: () => void) {
+    document.addEventListener('keydown', (e) => {
+      console.log(e.key);
+      if (keys.includes(e.key)) {
+        callback();
+      }
+    });
+  }
 }
