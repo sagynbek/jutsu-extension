@@ -6,6 +6,7 @@ Browser extension for [Jut.su](https://jut.su/)
 * Automatically skip introduction 🔥🔥🔥
 * Open next episode 😎
 * Control video playback rate 🎧
+* Fullscreen on "F" press 💻
 
 ## Links to install:
 * [Google Chrome Extension](https://chrome.google.com/webstore/detail/jutsu-extension/kcofalbbgkjelaocgeoigacggnbjiecg)
