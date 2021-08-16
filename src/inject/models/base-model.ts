@@ -33,7 +33,6 @@ export abstract class BaseModel<T extends Node>{
   }
   protected onKeyDown(keys: string[], callback: () => void) {
     document.addEventListener('keydown', (e) => {
-      console.log(e.key);
       if (keys.includes(e.key)) {
         callback();
       }

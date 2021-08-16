@@ -1,9 +1,7 @@
 import { BaseModel } from "inject/models/base-model";
-import { FULL_SCREEN } from "inject/constants";
 
 
-export class FullScreen<T extends HTMLDivElement> extends BaseModel<T> {
-  permitted = true;
+export class KeyboardShortcut<T extends HTMLDivElement> extends BaseModel<T> {
   constructor() {
     super();
 
@@ -11,17 +9,10 @@ export class FullScreen<T extends HTMLDivElement> extends BaseModel<T> {
   }
 
   private async init() {
-    await this.subscribeToPreference(FULL_SCREEN.key, FULL_SCREEN.default, this.setPermition);
     this.onKeyDown(['ф', 'Ф', 'f', 'F'], this.action);
   }
 
-  private setPermition = (permission) => {
-    this.permitted = permission;
-  }
-
   private action = () => {
-    if (!this.permitted) { return; }
-
     this.getFullScreenButton()?.click();
   }
 
