@@ -55,7 +55,7 @@ export class UserPreference {
       chrome.storage.sync.set({ [preference]: value }, () => {
         chrome.runtime.lastError
           ? reject(Error(chrome.runtime.lastError.message))
-          : resolve();
+          : resolve(value);
       });
     });
   }

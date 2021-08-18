@@ -1,5 +1,5 @@
 import { BaseModel } from "inject/models/base-model";
-import { OPEN_NEXT_VIDEO } from "inject/constants";
+import { NEXT_EPISODE_LAST_TRIGGER_TIME, OPEN_NEXT_VIDEO } from "inject/constants";
 
 
 export class NextEpisode<T extends HTMLDivElement> extends BaseModel<T> {
@@ -30,6 +30,7 @@ export class NextEpisode<T extends HTMLDivElement> extends BaseModel<T> {
   }
 
   private action = (element: T) => {
+    this.setPreference(NEXT_EPISODE_LAST_TRIGGER_TIME.key, new Date().toString());
     element.click();
   }
 }

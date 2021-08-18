@@ -1,12 +1,14 @@
 import { BaseModel } from "inject/models/base-model";
-import { AUTO_PLAY_VIDEO, FULL_SCREEN } from "inject/constants";
+import { AUTO_PLAY_VIDEO, FULL_SCREEN, NEXT_EPISODE_LAST_TRIGGER_TIME } from "inject/constants";
 import { getOffset, scrollTop } from "inject/utils/dom";
 
 const CSS_FULL_SCREEN_CLASS = "simulate-fullscreen";
+const TOLERATE_AUTO_FULL_SCREEN_IN_MS = 30 * 1000;
 
 export class AutoFullScreen<T extends HTMLDivElement> extends BaseModel<T> {
   permitted = true;
   autoPlayPermitted = true;
+  nextEpisodeLastTriggerTimeFitsTime = false;
 
   constructor() {
     super();
@@ -17,6 +19,13 @@ export class AutoFullScreen<T extends HTMLDivElement> extends BaseModel<T> {
   private async init() {
     await this.subscribeToPreference(FULL_SCREEN.key, FULL_SCREEN.default, this.setPermition);
     await this.subscribeToPreference(AUTO_PLAY_VIDEO.key, AUTO_PLAY_VIDEO.default, this.setAutoPlayPermition);
+    await this.subscribeToPreference(NEXT_EPISODE_LAST_TRIGGER_TIME.key, NEXT_EPISODE_LAST_TRIGGER_TIME.default, (lastTriggerTime) => {
+      // @ts-ignore
+      if (lastTriggerTime && (new Date() - new Date(lastTriggerTime)) < TOLERATE_AUTO_FULL_SCREEN_IN_MS) {
+        this.nextEpisodeLastTriggerTimeFitsTime = true;
+      }
+    });
+
     this.onDomAdd(this.validate, this.action);
   }
 
@@ -32,6 +41,7 @@ export class AutoFullScreen<T extends HTMLDivElement> extends BaseModel<T> {
     return (
       this.permitted
       && this.autoPlayPermitted
+      && this.nextEpisodeLastTriggerTimeFitsTime
       && element.nodeName === "VIDEO"
       && element.id === "my-player_html5_api"
     );
