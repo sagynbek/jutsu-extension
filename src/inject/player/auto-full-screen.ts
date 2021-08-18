@@ -41,12 +41,14 @@ export class AutoFullScreen<T extends HTMLDivElement> extends BaseModel<T> {
     const { top } = getOffset(element);
     scrollTop(top);
 
-    element.classList.add(CSS_FULL_SCREEN_CLASS);
-    document.addEventListener("mousedown", () => { this.exitCssFullScreen(element) });
-    document.addEventListener("keyup", (e) => { this.exitCssFullScreen(element) });
+    const bodyElement = document.querySelector("body");
+    bodyElement.classList.add(CSS_FULL_SCREEN_CLASS);
+    document.addEventListener("mousedown", this.exitCssFullScreen);
+    document.addEventListener("keyup", this.exitCssFullScreen);
   }
 
-  private exitCssFullScreen = (element: T) => {
+  private exitCssFullScreen = () => {
+    const element = document.querySelector("body");
     element.classList.remove(CSS_FULL_SCREEN_CLASS);
   }
 }
