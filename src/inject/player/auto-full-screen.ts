@@ -33,8 +33,7 @@ export class AutoFullScreen<T extends HTMLDivElement> extends BaseModel<T> {
   }
 
   private handleLastTriggerTime = (lastTriggerTime) => {
-    // @ts-ignore
-    if (lastTriggerTime && (new Date() - new Date(lastTriggerTime)) < TOLERATE_AUTO_FULL_SCREEN_IN_MS) {
+    if (lastTriggerTime && (new Date().getTime() - new Date(lastTriggerTime).getTime()) < TOLERATE_AUTO_FULL_SCREEN_IN_MS) {
       this.nextEpisodeLastTriggerTimeFitsTime = true;
     }
   }
@@ -58,8 +57,8 @@ export class AutoFullScreen<T extends HTMLDivElement> extends BaseModel<T> {
 
     document.addEventListener("mousedown", this.exitCssFullScreen);
     document.addEventListener("keyup", (e) => {
-      // F11's keycode = 122
-      if (e.keyCode !== 122) {
+      // check if e is not F11 (Windows full screen) or Control+Command+F (Mac full screen) or arrow keys
+      if (e.key !== "F11" && !(e.ctrlKey && e.metaKey && e.key === "f") && !["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
         this.exitCssFullScreen();
       }
     });

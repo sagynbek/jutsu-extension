@@ -3,7 +3,8 @@ body {
   min-width: 300px;
   min-height: 50px;
   background-color: #29303b;
-  color: white
+  color: white;
+  margin-bottom: 1em;
 }
 
 body div{
@@ -89,7 +90,7 @@ input:checked + .slider:before {
 }
 
 button{
-  background-color: #2196F3;
+  background-color: #15619e;
   border: none;
   color: white;
   padding: 8px 15px;
@@ -97,8 +98,15 @@ button{
   text-decoration: none;
   display: inline-block;
   cursor: pointer;
+
+  &:hover {
+    background-color: #2196F3;
+  }
 }
 
 .btn-reset{
+  float:right;
   background-color: 2196F3;
+  margin-bottom: 1em;
+  border-radius: 8px;
 }
