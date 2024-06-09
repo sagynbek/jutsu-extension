@@ -5,7 +5,7 @@
     "author": "Sagynbek Kenzhebaev",
     "description": "__MSG_extension_description__",
     "default_locale": "en",
-    "page_action": {
+    "action": {
         "default_title": "Jut.su Extension",
         "default_popup": "ui/popup/index.html"
     },
@@ -13,10 +13,6 @@
         "128": "icons/icon128.png",
         "48": "icons/icon48.png",
         "16": "icons/icon16.png"
-    },
-    "background": {
-        "persistent": true,
-        "page": "background/index.html"
     },
     "content_scripts": [
         {
