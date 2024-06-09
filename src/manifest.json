@@ -1,7 +1,7 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "__MSG_extension_name__",
-    "version": "0.8",
+    "version": "0.9",
     "author": "Sagynbek Kenzhebaev",
     "description": "__MSG_extension_description__",
     "default_locale": "en",
@@ -33,12 +33,21 @@
         }
     ],
     "web_accessible_resources": [
-        "ui/themes/dark.css",
-        "ui/themes/default.css",
-        "icons/pip-icon.png"
+        {
+            "resources": [
+                "ui/themes/dark.css",
+                "ui/themes/default.css",
+                "icons/pip-icon.png"
+            ],
+            "matches": [
+                "https://*.jut.su/*"
+            ]
+        }
     ],
     "permissions": [
-        "storage",
+        "storage"
+    ],
+    "host_permissions": [
         "https://*.jut.su/*"
     ]
 }
